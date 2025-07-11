@@ -17,5 +17,7 @@ public class MapperConfig : Profile
         CreateMap<Shop, ShopDto>().ReverseMap();
 
         CreateMap<Purchase, PurchaseDto>().ReverseMap();
+        CreateMap<Purchase, PurchaseCreateDto>().ReverseMap();
+        
     }
 }

@@ -6,25 +6,25 @@ namespace ProjectSoftwareWorkshop.Repositories;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
-    private readonly ProjectSoftwareWorkshopDbContext _context;
+    protected readonly ProjectSoftwareWorkshopDbContext Context;
 
     public GenericRepository(ProjectSoftwareWorkshopDbContext context)
     {
-        _context = context;
+        Context = context;
     }
 
     public async Task<T> AddAsync(T entity)
     {
-        await _context.AddAsync(entity);
-        await _context.SaveChangesAsync();
+        await Context.AddAsync(entity);
+        await Context.SaveChangesAsync();
         return entity;
     }
 
     public async Task DeleteAsync(int id)
     {
         var entity = await GetAsync(id);
-        _context.Set<T>().Remove(entity);
-        await _context.SaveChangesAsync();
+        Context.Set<T>().Remove(entity);
+        await Context.SaveChangesAsync();
     }
 
     public async Task<bool> Exists(int id)
@@ -33,9 +33,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return entity != null;
     }
 
-    public async Task<List<T>> GetAllAsync()
+    public virtual async Task<List<T>> GetAllAsync()
     {
-        return await _context.Set<T>().ToListAsync();
+        return await Context.Set<T>().ToListAsync();
     }
 
     public async Task<T> GetAsync(int? id)
@@ -45,13 +45,13 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
             return null;
         }
 
-        return await _context.Set<T>().FindAsync(id);
+        return await Context.Set<T>().FindAsync(id);
     }
 
 
     public async Task UpdateAsync(T entity)
     {
-        _context.Update(entity);
-        await _context.SaveChangesAsync();
+        Context.Update(entity);
+        await Context.SaveChangesAsync();
     }
 }

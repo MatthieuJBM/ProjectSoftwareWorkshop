@@ -83,9 +83,9 @@ public class PurchasesController : ControllerBase
         // POST: api/Purchases
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Purchase>> PostPurchase(PurchaseDto purchaseDto)
+        public async Task<ActionResult<Purchase>> PostPurchase(PurchaseCreateDto purchaseCreateDto)
         {
-            var purchase = _mapper.Map<Purchase>(purchaseDto);
+            var purchase = _mapper.Map<Purchase>(purchaseCreateDto);
             await _purchasesRepository.AddAsync(purchase);
 
             return CreatedAtAction("GetPurchase", new { id = purchase.Id }, purchase);
