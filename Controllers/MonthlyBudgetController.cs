@@ -1,10 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProjectSoftwareWorkshop.Contracts;
-using ProjectSoftwareWorkshop.Data;
 using ProjectSoftwareWorkshop.Models.Category;
-using ProjectSoftwareWorkshop.Models.Purchase;
+using ProjectSoftwareWorkshop.Models.Shop;
 
 namespace ProjectSoftwareWorkshop.Controllers;
 
@@ -21,7 +19,7 @@ public class MonthlyBudgetController : ControllerBase
         _purchasesRepository = purchasesRepository;
     }
 
-    [HttpGet("{month}/{year}")]
+    [HttpGet("monthlyCategoriesBudget/{month}/{year}")]
     public async Task<ActionResult<List<CategoryBudgetDto>>> GetMonthlyCategoriesBudget(int month, int year)
     {
         var purchases = await _purchasesRepository.GetAllAsync();
@@ -45,6 +43,37 @@ public class MonthlyBudgetController : ControllerBase
             result.Add(new CategoryBudgetDto
             {
                 Category = categoryDto,
+                Total = total
+            });
+        }
+
+        return Ok(result);
+    }
+    
+    [HttpGet("monthlyShopsBudget/{month}/{year}")]
+    public async Task<ActionResult<List<ShopBudgetDto>>> GetMonthlyShopsBudget(int month, int year)
+    {
+        var purchases = await _purchasesRepository.GetAllAsync();
+
+        var filteredPurchases = purchases
+            .Where(p => p.Date.Month == month && p.Date.Year == year)
+            .ToList();
+
+        var shopGroups = filteredPurchases
+            .GroupBy(p => p.Shop.Id)
+            .ToList();
+
+        var result = new List<ShopBudgetDto>();
+
+        foreach (var group in shopGroups)
+        {
+            var shop = group.First().Shop;
+            var shopDto = _mapper.Map<ShopDto>(shop);
+            var total = group.Sum(p => p.BillCost);
+
+            result.Add(new ShopBudgetDto
+            {
+                Shop = shopDto,
                 Total = total
             });
         }
