@@ -1,0 +1,13 @@
+*.a
+*.cache
+*.dll
+*.dylib
+*.info
+*.props
+*.so
+*.targets
+*.Up2Date
+
+/obj/
+/logs/
+/bin/
