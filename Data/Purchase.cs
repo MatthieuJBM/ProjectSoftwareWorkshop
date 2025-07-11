@@ -11,7 +11,7 @@ public class Purchase
     [ForeignKey(nameof(ShopId))] public int ShopId { get; set; }
     public required Shop Shop { get; set; }
 
-    [Required] public double BillCost { get; set; }
+    [Required] public decimal BillCost { get; set; }
 
     [ForeignKey(nameof(CategoryId))] public int CategoryId { get; set; }
     public required Category Category { get; set; }

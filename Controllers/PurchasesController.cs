@@ -11,7 +11,7 @@ namespace ProjectSoftwareWorkshop.Controllers;
 [ApiController]
 public class PurchasesController : ControllerBase
 {
-            private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly IPurchasesRepository _purchasesRepository;
 
         public PurchasesController(IMapper mapper, IPurchasesRepository purchasesRepository)

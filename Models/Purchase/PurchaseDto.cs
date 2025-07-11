@@ -10,7 +10,7 @@ public class PurchaseDto
     //public int ShopId { get; set; }
     public required ShopDto Shop { get; set; }
 
-    public double BillCost { get; set; }
+    public decimal BillCost { get; set; }
 
     // public int CategoryId { get; set; }
     public required CategoryDto Category { get; set; }
